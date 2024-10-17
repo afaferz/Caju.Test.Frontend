@@ -1,11 +1,11 @@
 import { RegistrationModel } from "~/data/models/registration/registrationModel";
 import singleton from "~/lib/injection/singleton";
-import alertStore, { AlertStore } from "~/store/alerts/alerts.store";
 import remoteRegistrationsRepository from "~/data/domain/repositories/registrations/remoteRegistrationsRepository";
 import registrationStore, {
     RegistrationStore,
 } from "~/store/registrations/registrations.store";
 import { RegistrationsRepository } from "~/data/repositories/registrations/registrationsRepository";
+import alertsProvider, { AlertsProvider } from "../alerts/alerts.provider";
 
 export interface Provider {
     getAllRegistrations(): Promise<void>;
@@ -20,7 +20,7 @@ export interface Provider {
 class ProviderImp implements Provider {
     constructor(
         private readonly store: RegistrationStore,
-        private readonly alertStore: AlertStore,
+        private readonly alertsProvider: AlertsProvider,
         private readonly repository: RegistrationsRepository
     ) {}
     public async getAllRegistrations(): Promise<void> {
@@ -29,7 +29,8 @@ class ProviderImp implements Provider {
             const data = await this.repository.getAll();
             this.store.updateRegistrations(data);
         } catch (error) {
-            console.log(this.alertStore);
+            console.log(this.alertsProvider);
+            this.alertsProvider;
         } finally {
             this.store.updateLoading(false);
         }
@@ -42,7 +43,7 @@ class ProviderImp implements Provider {
             const data = await this.repository.filterBy(params);
             this.store.updateRegistrations(data);
         } catch (error) {
-            // this.alertStore;
+            // this.alertsProvider;
         } finally {
             this.store.updateLoading(false);
         }
@@ -99,7 +100,7 @@ class ProviderImp implements Provider {
 const registrationsProvider = singleton(
     (store, alertsStore, repository) =>
         new ProviderImp(store, alertsStore, repository),
-    [registrationStore, alertStore, remoteRegistrationsRepository]
+    [registrationStore, alertsProvider, remoteRegistrationsRepository]
 );
 
 export default registrationsProvider;

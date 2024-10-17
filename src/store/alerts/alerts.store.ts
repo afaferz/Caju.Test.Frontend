@@ -1,45 +1,35 @@
 import { BehaviorSubject, Observable } from "rxjs";
-import { RegistrationModel } from "~/data/models/registration/registrationModel";
 import singleton from "~/lib/injection/singleton";
 
+interface Options {
+    variant: "success" | "error" | "warning" | "info";
+    body: string;
+    closable?: boolean;
+    timeout?: number;
+}
 interface State {
-    readonly registrations: Observable<RegistrationModel[] | null>;
-    readonly registrationModel: Observable<Omit<RegistrationModel, "id"> | {}>;
-    readonly loading: Observable<boolean>;
+    readonly alerts: Observable<Options[]>;
 }
 
 interface Mutations {
-    updateRegistrations(value: RegistrationModel[] | null): void;
-    updateRegistrationModel(value: Omit<RegistrationModel, "id"> | {}): void;
-    updateLoading(loading: boolean): void;
+    update(value: Options[]): void;
+    reset(): void;
 }
 
 type Store = State & Mutations;
 
-const $registrations = new BehaviorSubject<RegistrationModel[] | null>(null);
-const $registrationModel = new BehaviorSubject<RegistrationModel | {}>({});
-const $loading = new BehaviorSubject<boolean>(false);
+const $alerts = new BehaviorSubject<Options[]>([]);
 class StoreImp implements Store {
     constructor() {}
-    public readonly registrations: Observable<RegistrationModel[] | null> =
-        $registrations.asObservable();
-    public readonly registrationModel: Observable<
-        {} | Omit<RegistrationModel, "id">
-    > = $registrationModel.asObservable();
-    public readonly loading: Observable<boolean> = $loading.asObservable();
-    public updateRegistrations(value: RegistrationModel[] | null): void {
-        $registrations.next(value);
+    public readonly alerts: Observable<Options[]> = $alerts.asObservable();
+    public update(value: Options[]): void {
+        $alerts.next(value);
     }
-    public updateRegistrationModel(
-        value: Omit<RegistrationModel, "id"> | {}
-    ): void {
-        $registrationModel.next(value);
-    }
-    public updateLoading(loading: boolean): void {
-        $loading.next(loading);
+    public reset() {
+        $alerts.next([]);
     }
 }
 
-const alertStore = singleton(() => new StoreImp(), []);
-export default alertStore;
-export type { Store as AlertStore };
+const alertsStore = singleton(() => new StoreImp(), []);
+export default alertsStore;
+export type { Store as AlertsStore, Options as AlertsOptions };
