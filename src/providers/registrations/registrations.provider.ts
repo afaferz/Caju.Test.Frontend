@@ -1,7 +1,11 @@
 import { RegistrationModel } from "~/data/models/registration/registrationModel";
+import singleton from "~/lib/injection/singleton";
+import alertStore, { AlertStore } from "~/store/alerts/alerts.store";
+import remoteRegistrationsRepository from "~/data/domain/repositories/registrations/remoteRegistrationsRepository";
+import registrationStore, {
+    RegistrationStore,
+} from "~/store/registrations/registrations.store";
 import { RegistrationsRepository } from "~/data/repositories/registrations/registrationsRepository";
-import { AlertStore } from "~/store/alerts/alerts.store";
-import { RegistrationStore } from "~/store/registration/registrations.store";
 
 export interface Provider {
     getAllRegistrations(): Promise<void>;
@@ -25,7 +29,7 @@ class ProviderImp implements Provider {
             const data = await this.repository.getAll();
             this.store.updateRegistrations(data);
         } catch (error) {
-            // this.alertStore;
+            console.log(this.alertStore);
         } finally {
             this.store.updateLoading(false);
         }
@@ -91,3 +95,11 @@ class ProviderImp implements Provider {
         }
     }
 }
+
+const registrationsProvider = singleton(
+    (store, alertsStore, repository) =>
+        new ProviderImp(store, alertsStore, repository),
+    [registrationStore, alertStore, remoteRegistrationsRepository]
+);
+
+export default registrationsProvider;
