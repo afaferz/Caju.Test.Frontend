@@ -18,3 +18,5 @@
 
 - Adição da variável do Node ```NODE_ENV=test``` para rodar o script dos testes
 - Adição da variável do Node ```TZ=UTC``` para não haver distinção de datas no cliente e no server (pelo teste rodar em um ambiente *server-side* com a pipeline)
+
+**api**
