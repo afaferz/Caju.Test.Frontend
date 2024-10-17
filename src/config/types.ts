@@ -1,19 +1,20 @@
-declare type Environment =
+type Environment =
     | "local"
     | "test"
     | "development"
     | "homologation"
     | "production";
 
-declare type System = {
+type System = {
     debug: boolean;
-    environment: Environment;
-    verison: `${System["environment"]}-version`;
+    environment: Environment | string;
+    version: `${System["environment"]}-version` | string;
     version_number: string;
 };
 
-declare interface Module {
+interface Module {
     host: string;
     system: System;
 }
+export { type Environment };
 export default Module;

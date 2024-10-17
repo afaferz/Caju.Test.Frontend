@@ -1,0 +1,9 @@
+{
+    "host": "",
+    "system": {
+        "environment": "homologation",
+        "debug": true,
+        "version": "homologation-version",
+        "version_number": "1.0.0"
+    }
+}

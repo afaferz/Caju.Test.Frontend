@@ -1,0 +1,9 @@
+{
+    "host": "",
+    "system": {
+        "environment": "production",
+        "debug": false,
+        "version": "production-version",
+        "version_number": "1.0.0"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "host": "",
+    "system": {
+        "environment": "local",
+        "debug": true,
+        "version": "local-version",
+        "version_number": "1.0.0"
+    }
+}
