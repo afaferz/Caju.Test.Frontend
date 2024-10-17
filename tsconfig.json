@@ -9,10 +9,11 @@
     /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true, // Adicionado para comportar o import default de algumas lib, como React e ReactDOM
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react", // Editado para o jsx ser apenas a versão 'react'
 
     /* Linting */
     "strict": true,

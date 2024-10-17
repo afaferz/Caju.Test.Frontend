@@ -18,7 +18,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-router-dom": "5.1.2",
-    "styled-components": "^6.1.11"
+    "rxjs": "^7.8.1",
+    "styled-components": "^6.1.11",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^2.0.4",
@@ -32,6 +34,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.2",

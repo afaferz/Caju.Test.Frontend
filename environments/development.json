@@ -1,0 +1,9 @@
+{
+    "host": "",
+    "system": {
+        "environment": "development",
+        "debug": true,
+        "version": "development-version",
+        "version_number": "1.0.0"
+    }
+}
