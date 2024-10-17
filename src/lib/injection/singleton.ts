@@ -1,3 +1,7 @@
+// Modelo de lib criada em versão pacote (para meu próprio desenvolvimento)
+//  a fim de criar uma forma mais direta para injeção de dependências e um singleton simples
+
+
 // Define a função de construção para o singleton
 type ConstructionFn<T = any> = (...args: any[]) => T;
 type DependencieFn = () => any;

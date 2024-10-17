@@ -1,9 +1,11 @@
 import { HttpClient } from "~/data/models/httpClientModel";
 import { RegistrationModel } from "~/data/models/registration/registrationModel";
 import endpoints from "./registrationsEndpoints";
+import singleton from "~/lib/injection/singleton";
+import axiosClient from "~/data/api/axiosClient";
 
 interface RegistrationDatasource {
-    findAll(): Promise<RegistrationModel[]>;
+    findAll(parameters?: Record<string, any>): Promise<RegistrationModel[]>;
     findOne(id: number): Promise<RegistrationModel>;
     createOne(model: Omit<RegistrationModel, "id">): Promise<void>;
     updateOne(model: RegistrationModel): Promise<RegistrationModel>;
@@ -13,11 +15,14 @@ interface RegistrationDatasource {
 class RegistrationDatasourceImp implements RegistrationDatasource {
     constructor(private readonly httpClient: HttpClient) {}
 
-    public async findAll(): Promise<RegistrationModel[]> {
+    public async findAll(
+        parameters?: Record<string, any>
+    ): Promise<RegistrationModel[]> {
         try {
             const path = endpoints.find_all;
             const response = await this.httpClient.get<RegistrationModel[]>(
-                path
+                path,
+                parameters
             );
 
             return response;
@@ -40,7 +45,7 @@ class RegistrationDatasourceImp implements RegistrationDatasource {
     ): Promise<void> {
         try {
             const path = endpoints.create_one;
-            await this.httpClient.post<RegistrationModel>(path, model);
+            await this.httpClient.post<void>(path, model);
         } catch (_) {
             throw new CreateOneError(_);
         }
@@ -57,14 +62,13 @@ class RegistrationDatasourceImp implements RegistrationDatasource {
             );
             return response;
         } catch (_) {
-            console.log("ERROR adasdasdsadsa", _);
             throw new UpdateOneError(_);
         }
     }
     public async deleteOne(id: number): Promise<void> {
         try {
             const path = endpoints.delete_one.replace(":id", String(id));
-            await this.httpClient.delete<RegistrationModel>(path);
+            await this.httpClient.delete<void>(path);
         } catch (_) {
             throw new DeleteOneError(_);
         }
@@ -104,5 +108,9 @@ export class DeleteOneError extends Error {
         );
     }
 }
-
+const registrationDatasource = singleton(
+    (httpClient) => new RegistrationDatasourceImp(httpClient),
+    [axiosClient]
+);
+export default registrationDatasource;
 export { RegistrationDatasourceImp, type RegistrationDatasource };

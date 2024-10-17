@@ -24,12 +24,10 @@ class AxiosClient extends HttpClient {
         });
     }
 
-    public getInstance(): AxiosInstance {
-        return this._instance;
-    }
-
     public async get<T>(url: string, params?: Record<string, any>): Promise<T> {
-        const response = await this._instance.get<T>(url, { params });
+        const response = await this._instance.get<T>(url, {
+            params,
+        });
         return response.data;
     }
 

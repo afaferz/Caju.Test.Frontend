@@ -21,11 +21,8 @@ class MockAxiosClient extends HttpClient {
         };
     }
 
-    public async get<T>(
-        url: string,
-        _params?: Record<string, any>
-    ): Promise<T> {
-        return this.getMockResponse("GET", url);
+    public async get<T>(url: string, params?: Record<string, any>): Promise<T> {
+        return this.getMockResponse("GET", url, params);
     }
 
     public async post<T>(url: string, _data: any): Promise<T> {
@@ -40,11 +37,18 @@ class MockAxiosClient extends HttpClient {
         return this.getMockResponse("DELETE", url);
     }
 
-    private async getMockResponse<T>(method: string, url: string): Promise<T> {
-        const key = `${method} ${url}`;
+    private async getMockResponse<T>(
+        method: string,
+        url: string,
+        params?: Record<string, any>
+    ): Promise<T> {
+        let key = `${method} ${url}`;
+        if (params) {
+            const params$1 = new URLSearchParams(params).toString();
+            key += `?${params$1}`;
+        }
         if (key in this.mockResponses) {
             const { status, data } = this.mockResponses[key];
-            // Resultado mockado para sucesso (tratar em expects)
             if (status >= 200 && status < 300) {
                 return data;
             }
