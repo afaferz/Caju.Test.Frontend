@@ -6,6 +6,7 @@ import registrationStore, {
 } from "~/store/registrations/registrations.store";
 import { RegistrationsRepository } from "~/data/repositories/registrations/registrationsRepository";
 import alertsProvider, { AlertsProvider } from "../alerts/alerts.provider";
+import PromiseUtils from "~/utils/promise.utils";
 
 export interface Provider {
     getAllRegistrations(): Promise<void>;
@@ -25,6 +26,7 @@ class ProviderImp implements Provider {
     ) {}
     public async getAllRegistrations(): Promise<void> {
         this.store.updateLoading(true);
+        await PromiseUtils.sleep(100); // Simulate delay
         try {
             const data = await this.repository.getAll();
             this.store.updateRegistrations(data);

@@ -9,6 +9,8 @@ import * as S from "./styles";
 import MaskUtils from "~/utils/mask.utils";
 import CpfUtils from "~/utils/cpf.utils";
 import registrationsProvider from "~/providers/registrations/registrations.provider";
+import useObservable from "~/hooks/observable.hook";
+import registrationStore from "~/store/registrations/registrations.store";
 
 const CLEAR_MASK_EXP = /[^0-9*]/g;
 
@@ -16,6 +18,9 @@ const SearchBar = React.memo(() => {
     const history = useHistory();
 
     const provider = registrationsProvider();
+    const store = registrationStore();
+
+    const loading = useObservable(store.loading, false);
 
     const goToNewAdmissionPage = () => {
         history.push(routes.newUser);
@@ -34,7 +39,6 @@ const SearchBar = React.memo(() => {
             : "";
     }, [document]);
 
-    
     React.useEffect(() => {
         const unmasked = document.replace(CLEAR_MASK_EXP, "");
         if (unmasked.length >= 11) search(unmasked);
@@ -42,6 +46,10 @@ const SearchBar = React.memo(() => {
 
     async function search(cpf: string) {
         await provider.getRegistrationByFilter({ cpf });
+    }
+
+    async function refetch() {
+        await provider.getAllRegistrations();
     }
 
     function handleCpf(valueIn: string) {
@@ -62,10 +70,16 @@ const SearchBar = React.memo(() => {
                 error={documentError}
             />
             <S.Actions>
-                <IconButton aria-label="refetch">
+                <IconButton aria-label="refetch" onClick={refetch}>
                     <HiRefresh />
                 </IconButton>
-                <Button onClick={() => goToNewAdmissionPage()}>
+                <Button
+                    disabled={loading}
+                    loading={loading}
+                    color="#64a98c"
+                    minWidth={"175px"}
+                    onClick={() => goToNewAdmissionPage()}
+                >
                     Nova Admissão
                 </Button>
             </S.Actions>

@@ -1,3 +1,4 @@
+import React from "react";
 import { ButtonSmall } from "~/components/Buttons";
 import * as S from "./styles";
 import {
