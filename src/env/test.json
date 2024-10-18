@@ -1,5 +1,5 @@
 {
-    "host": "",
+    "host": "http://localhost:3000",
     "system": {
         "environment": "test",
         "debug": true,

@@ -16,14 +16,16 @@ class ConfigProviderImp implements ConfigProvider {
             production: () => import("../env/production.json"),
         };
         if (!module) throw new Error("Module config not found");
-        if (process.env.NODE_ENV == "test") {
+        const NODE_ENV = process.env.NODE_ENV;
+        const ENV_NAME = process.env.ENV_NAME;
+        if (NODE_ENV == "test") {
             module = await module$1["test"]();
             return module;
         }
 
-        if (process.env.ENV_NAME) {
+        if (ENV_NAME) {
             module = await module$1[
-                process.env.ENV_NAME.toLocaleLowerCase() as Environment
+                ENV_NAME.toLocaleLowerCase() as Environment
             ]();
             return module;
         }
