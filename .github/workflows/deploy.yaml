@@ -30,12 +30,13 @@ jobs:
       - name: Deploy to AWS S3 (dsv)
         uses: jakejarvis/s3-sync-action@master
         with:
-          bucket: ${{ secrets.AWS_DSV_S3_BUCKET_NAME }}
-          region: ${{ secrets.AWS_DSV_REGION }}
-          source-dir: build
+          args: --acl public-read --follow-symlinks --delete
         env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_DSV_S3_BUCKET_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DSV_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DSV_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_DSV_REGION }}
+          SOURCE_DIR: 'build'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
