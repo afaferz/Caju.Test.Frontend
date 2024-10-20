@@ -1,0 +1,132 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_dsv:
+    name: Deploy - DSV
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Build - DSV
+        run: |
+          npm run build:dsv
+
+      - name: Deploy to AWS S3 (dsv)
+        uses: aws-actions/s3-sync-action@v1
+        with:
+          bucket: ${{ secrets.AWS_DSV_S3_BUCKET_NAME }}
+          region: ${{ secrets.AWS_DSV_REGION }}
+          source-dir: build
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DSV_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DSV_SECRET_ACCESS_KEY }}
+
+      - name: Invalidate CloudFront (dsv)
+        if: secrets.AWS_DSV_CLOUDFRONT_DISTRIBUTION_ID != ''
+        uses: aws-actions/aws-cli-action@v1
+        with:
+          args: cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DSV_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DSV_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DSV_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_DSV_REGION }}
+
+  # deploy_hml:
+  #   name: Deploy - HML
+  #   runs-on: ubuntu-latest
+  #   needs: deploy_dsv
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '20'
+
+  #     - name: Install Dependencies
+  #       run: |
+  #         npm install
+
+  #     - name: Build - HML
+  #       run: |
+  #         npm run build:hml
+
+  #     - name: Deploy to AWS S3 (hml)
+  #       uses: aws-actions/s3-sync-action@v1
+  #       with:
+  #         bucket: ${{ secrets.AWS_HML_S3_BUCKET_NAME }}
+  #         region: ${{ secrets.AWS_HML_REGION }}
+  #         source-dir: build
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_HML_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_HML_SECRET_ACCESS_KEY }}
+
+  #     - name: Invalidate CloudFront (hml)
+  #       if: secrets.AWS_HML_CLOUDFRONT_DISTRIBUTION_ID != ''
+  #       uses: aws-actions/aws-cli-action@v1
+  #       with:
+  #         args: cloudfront create-invalidation --distribution-id ${{ secrets.AWS_HML_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_HML_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_HML_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: ${{ secrets.AWS_HML_REGION }}
+
+  # deploy_prod:
+  #   name: Deploy - PRD
+  #   runs-on: ubuntu-latest
+  #   needs: deploy_hml
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '20'
+
+  #     - name: Install Dependencies
+  #       run: |
+  #         npm install
+
+  #     - name: Build - PRD
+  #       run: |
+  #         npm run build:prod
+
+  #     - name: Deploy to AWS S3 (prd)
+  #       uses: aws-actions/s3-sync-action@v1
+  #       with:
+  #         bucket: ${{ secrets.AWS_PRD_S3_BUCKET_NAME }}
+  #         region: ${{ secrets.AWS_PRD_REGION }}
+  #         source-dir: build
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_PRD_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_PRD_SECRET_ACCESS_KEY }}
+
+  #     - name: Invalidate CloudFront (prd)
+  #       if: secrets.AWS_PRD_CLOUDFRONT_DISTRIBUTION_ID != ''
+  #       uses: aws-actions/aws-cli-action@v1
+  #       with:
+  #         args: cloudfront create-invalidation --distribution-id ${{ secrets.AWS_PRD_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_PRD_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_PRD_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: ${{ secrets.AWS_PRD_REGION }}
