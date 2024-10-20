@@ -28,7 +28,7 @@ jobs:
           npm run build:dsv
 
       - name: Deploy to AWS S3 (dsv)
-        uses: aws-actions/s3-sync-action@v1
+        uses: jakejarvis/s3-sync-action@master
         with:
           bucket: ${{ secrets.AWS_DSV_S3_BUCKET_NAME }}
           region: ${{ secrets.AWS_DSV_REGION }}
