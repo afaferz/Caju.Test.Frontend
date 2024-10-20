@@ -41,7 +41,6 @@ jobs:
         uses: aws-actions/aws-cli-action@v1
         with:
           args: cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DSV_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-        secrets: inherit
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DSV_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DSV_SECRET_ACCESS_KEY }}
