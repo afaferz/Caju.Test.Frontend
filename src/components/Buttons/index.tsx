@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Spinner } from "../Spinner";
 
-const _ButtonStyled = styled.button<{
+export const _ButtonStyled = styled.button<{
     color?: string;
     disabled?: boolean;
     loading?: boolean;

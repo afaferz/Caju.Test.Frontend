@@ -1,3 +1,4 @@
+import React from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import routes from "./routes";
 import DashboardPage from "~/pages/Dashboard";
