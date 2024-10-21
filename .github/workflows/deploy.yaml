@@ -29,8 +29,6 @@ jobs:
 
       - name: Deploy to AWS S3 (dsv)
         uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl ""
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_DSV_S3_BUCKET_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DSV_ACCESS_KEY_ID }}
