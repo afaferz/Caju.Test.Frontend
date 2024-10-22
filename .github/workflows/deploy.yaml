@@ -87,21 +87,10 @@ jobs:
       - name: Invalidate CloudFront (hml)
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_HML_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
   
-  
-  approval:
-    name: Manual Approval
-    runs-on: ubuntu-latest
-    needs: deploy_hml
-    steps:
-      - name: Pause for manual approval
-        uses: hmanzur/actions-workflow-pause@v1
-        with:
-          prompt: "Please approve the deployment to production"
-
   deploy_prd:
     name: Deploy - PRD
     runs-on: ubuntu-latest
-    needs: approval
+    needs: deploy_hml
 
     steps:
       - name: Checkout code
