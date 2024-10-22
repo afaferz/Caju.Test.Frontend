@@ -2,8 +2,8 @@ import * as React from "react";
 import styled from "styled-components";
 
 const _Spinner = styled.span<{ color?: string }>`
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 1.55em;
+    height: 1.55em;
     border: 5px solid ${(props) => props.color ?? "#fff"};
     border-bottom-color: transparent;
     border-radius: 50%;

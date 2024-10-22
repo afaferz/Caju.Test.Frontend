@@ -11,14 +11,16 @@ const DashboardPage = () => {
     const store = registrationStore();
 
     const registrations = useObservable(store.registrations, []);
-    const loading = useObservable(store.loading, false);
+    const [loading, setLoading] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         fetchRegistrations();
     }, []);
 
     async function fetchRegistrations() {
+        setLoading(true);
         await provider.getAllRegistrations();
+        setLoading(false);
     }
     return (
         <S.Container>

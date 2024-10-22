@@ -19,7 +19,8 @@ describe("components", () => {
             const props = {
                 $loading: true,
                 $disabled: true,
-                $variant: 'medium' as any,
+                $variant: "medium" as any,
+                $width: "100%",
             };
             render(<Button {...props}>Ativar</Button>);
             const button = screen.getByTestId("test--button");
@@ -32,7 +33,7 @@ describe("components", () => {
         it("should disable click events", () => {
             const clickFn = jest.fn();
             render(
-                <Button $click={clickFn} $disabled>
+                <Button $click={clickFn} $disabled $block>
                     Ativar
                 </Button>
             );

@@ -2,21 +2,22 @@ import * as React from "react";
 import styled from "styled-components";
 import { Spinner } from "../Spinner";
 
-export const _ButtonStyled = styled.button<{
+const _ButtonStyled = styled.button<{
     $color?: string;
     $disabled?: boolean;
     $loading?: boolean;
     $minWidth?: string | number;
     $width?: string | number;
     $block?: boolean;
+    $rounded?: boolean;
 }>`
     outline: none;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 36px;
-    padding: 8px 32px;
+    border-radius: ${(props) => (props.$rounded ? ".5rem" : "0px")};
+    padding: 4px 16px;
     background-color: ${(props) => props.$color ?? "none"};
     cursor: pointer;
     color: #fff;
@@ -36,13 +37,7 @@ export const _ButtonStyled = styled.button<{
     }
     &.--small {
         font-size: 12px;
-        outline: none;
-        border-radius: 4px;
-        border: none;
         padding: 4px 16px;
-        background-color: ${(props) => props.$color ?? "none"};
-        color: #fff;
-        cursor: pointer;
         height: 24px;
     }
     &.--medium {
@@ -62,6 +57,7 @@ type ButtonProps = {
     $width?: string | number;
     $block?: boolean;
     $variant?: "small" | "medium" | "large";
+    $rounded?: boolean;
     $click?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 } & React.HTMLAttributes<HTMLButtonElement>;
 

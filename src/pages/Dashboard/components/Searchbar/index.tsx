@@ -78,6 +78,7 @@ const SearchBar = React.memo(() => {
                     $color="#64a98c"
                     $minWidth={"175px"}
                     $variant="large"
+                    $rounded
                     onClick={() => goToNewAdmissionPage()}
                 >
                     Nova Admissão

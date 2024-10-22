@@ -52,7 +52,7 @@ export const TitleColumn = styled.h3<{ status: any }>`
 export const CollumContent = styled.div`
     overflow: auto;
     max-height: 85%;
-    overflow-y: scroll;
+    overflow-y: auto;
 `;
 
 export const CollumSubtitle = styled.span`
