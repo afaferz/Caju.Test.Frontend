@@ -2,7 +2,7 @@ import * as React from "react";
 import * as S from "./styles";
 import RegistrationCard from "../RegistrationCard";
 import { RegistrationModel } from "~/data/models/registration/registrationModel";
-import { Spinner } from "~/components/Spinner";
+import Spinner from "~/components/Spinner";
 import If from "~/components/Common/If";
 import Modal, {
     _ModalSubtitleStyled,
@@ -11,7 +11,7 @@ import Modal, {
 import registrationStore from "~/store/registrations/registrations.store";
 import useObservable from "~/hooks/observable.hook";
 
-const allColumns = [
+const COLLUMNS = [
     { status: "REVIEW", title: "Pronto para revisar" },
     { status: "APPROVED", title: "Aprovado" },
     { status: "REPROVED", title: "Reprovado" },
@@ -21,7 +21,7 @@ type Action = [(...args: any[]) => Promise<void> | void, any];
 type Props = {
     registrations?: RegistrationModel[];
 };
-const Collumns = (props: Props) => {
+const Collumns = React.memo((props: Props) => {
     const { registrations } = props;
 
     const store = registrationStore();
@@ -58,7 +58,7 @@ const Collumns = (props: Props) => {
 
     return (
         <S.Container>
-            {allColumns.map((collum) => {
+            {COLLUMNS.map((collum) => {
                 return (
                     <S.Column status={collum.status} key={collum.title}>
                         <>
@@ -122,5 +122,5 @@ const Collumns = (props: Props) => {
             </Modal>
         </S.Container>
     );
-};
+});
 export default Collumns;

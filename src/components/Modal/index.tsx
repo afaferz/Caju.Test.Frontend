@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import styled from "styled-components";
 import { HiX } from "react-icons/hi";
 import Button from "../Buttons";
@@ -27,7 +27,7 @@ const _ModalStyled = styled.dialog<{ $open?: boolean }>`
     &[open] {
         opacity: 1;
         pointer-events: inherit;
-        animation: modal-in 500ms forwards ease;
+        animation: modal-in 0.5s forwards ease;
     }
 
     &::backdrop {
@@ -137,6 +137,8 @@ const Modal = React.memo((props: ModalProps) => {
         <_ModalStyled ref={ref} $open={open}>
             <_ModalContentStyled>
                 <_ModalCloseButtonStyled
+                    aria-label="Fechar"
+                    data-testid="test--modal-close-button"
                     onClick={() => {
                         close();
                         $cancel && $cancel();
@@ -149,8 +151,9 @@ const Modal = React.memo((props: ModalProps) => {
                         $rounded
                         $disabled={$loading}
                         $loading={$loading}
-                        $minWidth={'175px'}
+                        $minWidth={"175px"}
                         $click={() => $cancel && $cancel()}
+                        data-testid="test--modal-cancel-btn"
                     >
                         Cancelar
                     </Button>
@@ -159,8 +162,9 @@ const Modal = React.memo((props: ModalProps) => {
                         $rounded
                         $loading={$loading}
                         $disabled={$loading}
-                        $minWidth={'175px'}
+                        $minWidth={"175px"}
                         $click={() => $confirm && $confirm()}
+                        data-testid="test--modal-confirm-btn"
                     >
                         Confirmar
                     </Button>

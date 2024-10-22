@@ -22,7 +22,7 @@ type Props = {
     ) => void;
 };
 
-const RegistrationCard = (props: Props) => {
+const RegistrationCard = React.memo((props: Props) => {
     const { data, $action } = props;
 
     const store = registrationStore();
@@ -64,13 +64,13 @@ const RegistrationCard = (props: Props) => {
                         $variant="small"
                         $color="rgb(255, 145, 154)"
                         $loading={loading}
+                        $minWidth={"85px"}
                         $click={() =>
                             $action(update$1, [
                                 data,
                                 RegistrationStatus.REPROVED,
                             ])
                         }
-                        $minWidth={"85px"}
                     >
                         Reprovar
                     </Button>
@@ -80,13 +80,13 @@ const RegistrationCard = (props: Props) => {
                         $variant="small"
                         $color="rgb(155, 229, 155)"
                         $loading={loading}
+                        $minWidth={"85px"}
                         $click={() =>
                             $action(update$1, [
                                 data,
                                 RegistrationStatus.APPROVED,
                             ])
                         }
-                        $minWidth={"85px"}
                     >
                         Aprovar
                     </Button>
@@ -96,10 +96,10 @@ const RegistrationCard = (props: Props) => {
                         $variant="small"
                         $color="#ff8858"
                         $loading={loading}
+                        $minWidth={"175px"}
                         $click={() =>
                             $action(update$1, [data, RegistrationStatus.REVIEW])
                         }
-                        $minWidth={"175px"}
                     >
                         Revisar novamente
                     </Button>
@@ -109,6 +109,6 @@ const RegistrationCard = (props: Props) => {
             </S.Actions>
         </S.Card>
     );
-};
+});
 
 export default RegistrationCard;

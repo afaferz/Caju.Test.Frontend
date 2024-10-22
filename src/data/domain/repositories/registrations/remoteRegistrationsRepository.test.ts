@@ -40,6 +40,15 @@ describe("domain", () => {
                     expect(result.length).toEqual(2);
                     expect(result[0].cpf).toEqual("78502270001");
                 });
+                it("should return a registration", async () => {
+                    jest.spyOn(datasource, "findOne").mockResolvedValueOnce(
+                        mockResponse[0]
+                    );
+                    const result = await remoteRegistrationsRepository.getById(
+                        1
+                    );
+                    expect(result.cpf).toEqual("78502270001");
+                });
                 it("should return a list of registrations w/ filter", async () => {
                     jest.spyOn(datasource, "findAll").mockResolvedValueOnce([
                         mockResponse[0],

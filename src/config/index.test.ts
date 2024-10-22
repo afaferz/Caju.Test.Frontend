@@ -2,11 +2,11 @@ import Module from "./types";
 import provider from ".";
 
 // CommonJS pois aparentemente a versão do Jest não esta suportando o transform do JSON
-const localEnv = require('../env/local.json'); 
-const testEnv = require('../env/test.json'); 
-const developmentEnv = require('../env/development.json'); 
-const homologationEnv = require('../env/homologation.json'); 
-const productionEnv = require('../env/production.json'); 
+const localEnv = require("../env/local.json");
+const testEnv = require("../env/test.json");
+const developmentEnv = require("../env/development.json");
+const homologationEnv = require("../env/homologation.json");
+const productionEnv = require("../env/production.json");
 
 function checkKeysMatch(selectorFn: (config: Module) => Object) {
     const envs = [
@@ -94,6 +94,17 @@ describe("config", () => {
             } catch (error: any) {
                 expect(error!.message).toEqual("");
             }
+        });
+        it("must throw error when config is not found - module missing", async () => {
+            // Simulando que o módulo default retorne undefined para cair no catch da configuração
+            jest.mock("../env/local.json", () => undefined);
+            Object.assign(process.env, {
+                ENV_NAME: "",
+                NODE_ENV: "",
+            });
+            await expect(provider().get()).rejects.toThrow(
+                "Module config not found"
+            );
         });
     });
 });

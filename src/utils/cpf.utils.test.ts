@@ -17,5 +17,20 @@ describe("utils", () => {
             const target = CpfUtils.isValid(input);
             expect(target).toBeTruthy();
         });
+        it('should return invalid cpf in NOT_ALLOWED list', async () => {
+            const input = '999999999999'
+            const target = CpfUtils.isValid(input);
+            expect(target).toBeFalsy();
+        })
+        it('should return false if the first digit does not match', async () => {
+            const input = '12345678911'
+            const target = CpfUtils.isValid(input);
+            expect(target).toBeFalsy();
+        })
+        it('should return false if the second digit does not match', async () => {
+            const input = '12345678901'
+            const target = CpfUtils.isValid(input);
+            expect(target).toBeFalsy();
+        })
     });
 });

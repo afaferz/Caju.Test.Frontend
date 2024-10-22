@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Spinner } from "../Spinner";
+import Spinner from "../Spinner";
 
 const _ButtonStyled = styled.button<{
     $color?: string;
@@ -61,7 +61,7 @@ type ButtonProps = {
     $click?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
-const _Button = React.memo((props: ButtonProps) => {
+const Button = React.memo((props: ButtonProps) => {
     const { children, $disabled, $variant, $loading, $click } = props;
 
     const classNames = [""];
@@ -85,4 +85,4 @@ const _Button = React.memo((props: ButtonProps) => {
     );
 });
 
-export default _Button;
+export default Button;

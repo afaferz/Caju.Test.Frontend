@@ -19,6 +19,7 @@ interface Mutations {
 type Store = State & Mutations;
 
 const $alerts = new BehaviorSubject<Options[]>([]);
+
 class StoreImp implements Store {
     constructor() {}
     public readonly alerts: Observable<Options[]> = $alerts.asObservable();

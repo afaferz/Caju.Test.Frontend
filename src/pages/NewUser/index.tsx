@@ -7,7 +7,7 @@ import { IconButton } from "~/components/Buttons/IconButton";
 import { useHistory } from "react-router-dom";
 import routes from "~/router/routes";
 
-const NewUserPage = () => {
+function NewUserPage() {
     const history = useHistory();
     const goToHome = () => {
         history.push(routes.dashboard);
@@ -32,6 +32,6 @@ const NewUserPage = () => {
             </S.Card>
         </S.Container>
     );
-};
+}
 
 export default NewUserPage;

@@ -25,11 +25,6 @@ const Router = () => {
                         path={routes.newUser}
                         component={NewUserPage}
                     />
-                    <Route
-                        exact
-                        path={routes.history}
-                        component={() => <div>History</div>}
-                    />
 
                     <Route exact path="*">
                         <Redirect to={routes.dashboard} />

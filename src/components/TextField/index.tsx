@@ -41,7 +41,7 @@ type Props = {
     $block?: boolean;
 } & React.InputHTMLAttributes<any>;
 
-const TextField = (props: Props) => {
+const TextField = React.memo((props: Props) => {
     const { label, error, id, $block } = props;
     return (
         <_Container>
@@ -54,6 +54,6 @@ const TextField = (props: Props) => {
             )}
         </_Container>
     );
-};
+});
 
 export default TextField;

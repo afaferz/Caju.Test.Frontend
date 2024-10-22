@@ -33,4 +33,4 @@ const Spinner = React.memo((props: SpinnerProps) => (
     />
 ));
 
-export { Spinner };
+export default Spinner;

@@ -31,7 +31,12 @@ class ProviderImp implements Provider {
             const data = await this.repository.getAll();
             this.store.updateRegistrations(data);
         } catch (error) {
-            console.log(this.alertsProvider);
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao buscar registros, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
         } finally {
             this.store.updateLoading(false);
         }
@@ -45,7 +50,12 @@ class ProviderImp implements Provider {
             const data = await this.repository.filterBy(params);
             this.store.updateRegistrations(data);
         } catch (error) {
-            console.log(this.alertsProvider);
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao buscar registro, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
         } finally {
             this.store.updateLoading(false);
         }
@@ -56,7 +66,12 @@ class ProviderImp implements Provider {
             const data = await this.repository.getById(id);
             this.store.updateRegistration(data);
         } catch (error) {
-            console.log(this.alertsProvider);
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao deletar registro, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
         } finally {
             this.store.updateLoading(false);
         }
@@ -68,8 +83,19 @@ class ProviderImp implements Provider {
         try {
             await this.repository.create(payload);
             await this.getAllRegistrations();
+            this.alertsProvider.push({
+                variant: "success",
+                body: "Registro criado com sucesso.",
+                closable: true,
+                timeout: 3000,
+            });
         } catch (error) {
-            console.log(this.alertsProvider);
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao criar registro, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
         } finally {
             this.store.updateLoading(false);
         }
@@ -80,8 +106,41 @@ class ProviderImp implements Provider {
         try {
             await this.repository.updateById(id, register);
             await this.getAllRegistrations();
+            this.alertsProvider.push({
+                variant: "success",
+                body: "Registro atualizado com sucesso.",
+                closable: true,
+                timeout: 3000,
+            });
         } catch (error) {
-            console.log(this.alertsProvider);
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao atualizar registro, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
+        } finally {
+            this.store.updateLoading(false);
+        }
+    }
+    public async deleteRegistration(id: number): Promise<void> {
+        this.store.updateLoading(true);
+        try {
+            await this.repository.deleteById(id);
+            await this.getAllRegistrations();
+            this.alertsProvider.push({
+                variant: "success",
+                body: "Registro apagado com sucesso.",
+                closable: true,
+                timeout: 3000,
+            });
+        } catch (error) {
+            this.alertsProvider.push({
+                variant: "error",
+                body: "Erro ao deletar registro, por favor tente novamente.",
+                closable: true,
+                timeout: 3000,
+            });
         } finally {
             this.store.updateLoading(false);
         }
@@ -89,17 +148,6 @@ class ProviderImp implements Provider {
 
     public resetRegistration(): void {
         this.store.updateRegistration(null);
-    }
-    public async deleteRegistration(id: number): Promise<void> {
-        this.store.updateLoading(true);
-        try {
-            await this.repository.deleteById(id);
-            await this.getAllRegistrations();
-        } catch (error) {
-            console.log(this.alertsProvider);
-        } finally {
-            this.store.updateLoading(false);
-        }
     }
 }
 
