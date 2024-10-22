@@ -46,7 +46,6 @@ const RegistrationCard = (props: Props) => {
 
     return (
         <S.Card>
-            {data.status}
             <S.IconAndText>
                 <HiOutlineUser />
                 <h3>{data.employeeName}</h3>

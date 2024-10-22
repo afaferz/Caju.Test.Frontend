@@ -34,7 +34,6 @@ const Collumns = (props: Props) => {
         fn: (...args: any[]) => Promise<void> | void,
         data: any[]
     ) => {
-        console.log(fn, data);
         setOpen(true);
         setAction([fn, data]);
     };
