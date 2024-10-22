@@ -25,11 +25,13 @@ export const IconAndText = styled.div`
 export const Actions = styled.div`
   margin-top: 8px;
   display: flex;
-  justify-content: space-between;
+  justify-content: stretch;
   align-items: center;
   gap: 4px;
 
   svg {
     cursor: pointer;
+    display: block;
+    margin-left: auto;
   }
 `;

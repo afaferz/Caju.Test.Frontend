@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Observable } from "rxjs";
 
 export default function useObservable<T = unknown>(

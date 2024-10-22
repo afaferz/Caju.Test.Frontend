@@ -1,10 +1,10 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 
-const _Spinner = styled.span`
+const _Spinner = styled.span<{ color?: string }>`
     width: 1.75rem;
     height: 1.75rem;
-    border: 5px solid #FFF;
+    border: 5px solid ${(props) => props.color ?? "#fff"};
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
@@ -18,8 +18,19 @@ const _Spinner = styled.span`
         100% {
             transform: rotate(360deg);
         }
+    }
 `;
 
-const Spinner = React.memo(() => <_Spinner />);
+type SpinnerProps = {
+    color?: string;
+};
+
+const Spinner = React.memo((props: SpinnerProps) => (
+    <_Spinner
+        aria-label="Carregando..."
+        data-testid="test--spinner"
+        {...props}
+    />
+));
 
 export { Spinner };

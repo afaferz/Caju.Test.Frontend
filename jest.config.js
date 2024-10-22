@@ -10,6 +10,9 @@ export default {
     moduleNameMapper: {
         "^~/(.+)": "<rootDir>/src/$1",
     },
-    moduleFileExtensions: ["js", "ts", "tsx", "json"]
-    //   setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
+    testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(test).[jt]s?(x)"],
+    collectCoverage: true,
+    collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
+    moduleFileExtensions: ["js", "ts", "tsx", "json"],
+    setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };

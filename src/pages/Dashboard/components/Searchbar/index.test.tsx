@@ -1,53 +1,83 @@
-// import React from "react";
-// import { HiRefresh } from "react-icons/hi";
-// import { useHistory } from "react-router-dom";
-// import Button from "~/components/Buttons";
-// import { IconButton } from "~/components/Buttons/IconButton";
-// import TextField from "~/components/TextField";
-// import routes from "~/router/routes";
-// import * as S from "./styles";
-// import MaskUtils from "~/utils/mask.utils";
-// import CpfUtils from "~/utils/cpf.utils";
+import * as React from "react";
+import { screen, fireEvent } from "@testing-library/react";
+import SearchBar from ".";
+import make_sut from "~/helpers/make-sut";
+import registrationsProvider from "~/providers/registrations/registrations.provider";
+import { useHistory } from "react-router-dom";
+import registrationStore from "~/store/registrations/registrations.store";
 
-// const CLEAR_MASK_EXP = /[^0-9*]/g;
-// export const SearchBar = () => {
-//     const history = useHistory();
+jest.mock("react-router-dom", () => ({
+    useHistory: jest.fn(),
+}));
 
-//     const goToNewAdmissionPage = () => {
-//         history.push(routes.newUser);
-//     };
+describe("pages", () => {
+    describe("Dashboard", () => {
+        describe("components", () => {
+            describe("SearchBar", () => {
+                it("should render correctly", () => {
+                    const { render } = make_sut(<SearchBar />);
+                    render("/");
+                    const component = screen.getByTestId("test--search-bar");
 
-//     const [document, setDocument] = React.useState<string>("");
-
-//     const IS_VALID = React.useMemo(
-//         () => CpfUtils.isValid(document),
-//         [document]
-//     );
-
-//     function handleCpf(valueIn: string) {
-//         let value = "";
-//         value = valueIn.replace(CLEAR_MASK_EXP, "");
-//         const mask = "999.999.999-99";
-//         value = MaskUtils.format(value, mask).substring(0, mask.length);
-//         setDocument(value);
-//     }
-
-//     return (
-//         <S.Container>
-//             {JSON.stringify(IS_VALID)}
-//             <TextField
-//                 value={document}
-//                 onChange={(e) => handleCpf(e.target.value)}
-//                 placeholder="Digite um CPF válido"
-//             />
-//             <S.Actions>
-//                 <IconButton aria-label="refetch">
-//                     <HiRefresh />
-//                 </IconButton>
-//                 <Button onClick={() => goToNewAdmissionPage()}>
-//                     Nova Admissão
-//                 </Button>
-//             </S.Actions>
-//         </S.Container>
-//     );
-// };
+                    expect(component).toBeInTheDocument();
+                    // expect(component).toMatchSnapshot();
+                });
+                it("should input value for document search", () => {
+                    const { render } = make_sut(<SearchBar />);
+                    render("/");
+                    const input = screen.getByTestId(
+                        "test--input"
+                    ) as HTMLInputElement;
+                    fireEvent.change(input, {
+                        target: { value: "999999999999" },
+                    });
+                    expect(input.value).toBe("999.999.999-99");
+                });
+                it("should find when input is valid", () => {
+                    const searchFn = jest.spyOn(
+                        registrationsProvider(),
+                        "getRegistrationByFilter"
+                    );
+                    const { render } = make_sut(<SearchBar />);
+                    render("/");
+                    const input = screen.getByTestId(
+                        "test--input"
+                    ) as HTMLInputElement;
+                    fireEvent.change(input, {
+                        target: { value: "78502270001" },
+                    });
+                    expect(searchFn).toHaveBeenCalledWith({
+                        cpf: "78502270001",
+                    });
+                });
+                it("should refetch items when button was clicked", () => {
+                    const refetchFn = jest.spyOn(
+                        registrationsProvider(),
+                        "getAllRegistrations"
+                    );
+                    const { render } = make_sut(<SearchBar />);
+                    render("/");
+                    const button = screen.getByRole("button", {
+                        name: /refetch/i,
+                    });
+                    fireEvent.click(button);
+                    expect(refetchFn).toHaveBeenCalled();
+                });
+                it("should redirect to admission page", () => {
+                    const store = registrationStore();
+                    store.updateLoading(false);
+                    store.updateRegistrations([]);
+                    const pushHistoryFn = jest.fn();
+                    (useHistory as jest.Mock).mockReturnValue({
+                        push: pushHistoryFn,
+                    });
+                    const { render } = make_sut(<SearchBar />);
+                    render("/");
+                    const button = screen.getByTestId("test--button");
+                    fireEvent.click(button);
+                    expect(pushHistoryFn).toHaveBeenCalledWith("/new-user");
+                });
+            });
+        });
+    });
+});

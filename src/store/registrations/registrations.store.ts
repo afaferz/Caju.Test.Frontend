@@ -32,8 +32,8 @@ class StoreImp implements Store {
     public updateRegistration(value: RegistrationModel | null): void {
         $registration.next(value);
     }
-    public updateLoading(loading: boolean): void {
-        $loading.next(loading);
+    public updateLoading(value: boolean): void {
+        $loading.next(value);
     }
 }
 

@@ -26,13 +26,12 @@ class ProviderImp implements Provider {
     ) {}
     public async getAllRegistrations(): Promise<void> {
         this.store.updateLoading(true);
-        await PromiseUtils.sleep(100); // Simulate delay
+        await PromiseUtils.sleep(500); // Simulate delay
         try {
             const data = await this.repository.getAll();
             this.store.updateRegistrations(data);
         } catch (error) {
             console.log(this.alertsProvider);
-            this.alertsProvider;
         } finally {
             this.store.updateLoading(false);
         }
@@ -41,11 +40,12 @@ class ProviderImp implements Provider {
         params: Record<string, string>
     ): Promise<void> {
         this.store.updateLoading(true);
+        await PromiseUtils.sleep(500); // Simulate delay
         try {
             const data = await this.repository.filterBy(params);
             this.store.updateRegistrations(data);
         } catch (error) {
-            // this.alertsProvider;
+            console.log(this.alertsProvider);
         } finally {
             this.store.updateLoading(false);
         }
@@ -56,6 +56,7 @@ class ProviderImp implements Provider {
             const data = await this.repository.getById(id);
             this.store.updateRegistration(data);
         } catch (error) {
+            console.log(this.alertsProvider);
         } finally {
             this.store.updateLoading(false);
         }
@@ -68,6 +69,7 @@ class ProviderImp implements Provider {
             await this.repository.create(payload);
             await this.getAllRegistrations();
         } catch (error) {
+            console.log(this.alertsProvider);
         } finally {
             this.store.updateLoading(false);
         }
@@ -79,6 +81,7 @@ class ProviderImp implements Provider {
             await this.repository.updateById(id, register);
             await this.getAllRegistrations();
         } catch (error) {
+            console.log(this.alertsProvider);
         } finally {
             this.store.updateLoading(false);
         }
@@ -93,6 +96,7 @@ class ProviderImp implements Provider {
             await this.repository.deleteById(id);
             await this.getAllRegistrations();
         } catch (error) {
+            console.log(this.alertsProvider);
         } finally {
             this.store.updateLoading(false);
         }

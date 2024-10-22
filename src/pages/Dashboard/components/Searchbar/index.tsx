@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { HiRefresh } from "react-icons/hi";
 import { useHistory } from "react-router-dom";
 import Button from "~/components/Buttons";
@@ -22,9 +22,7 @@ const SearchBar = React.memo(() => {
 
     const loading = useObservable(store.loading, false);
 
-    const goToNewAdmissionPage = () => {
-        history.push(routes.newUser);
-    };
+    const goToNewAdmissionPage = () => history.push(routes.newUser);
 
     const [document, setDocument] = React.useState<string>("");
 
@@ -37,18 +35,20 @@ const SearchBar = React.memo(() => {
         return !isValidDocument && documentUnmasked.length >= 11
             ? "CPF inválido."
             : "";
-    }, [document]);
+    }, [document, isValidDocument]);
+
+    const search = React.useCallback(
+        async (cpf: string) => await provider.getRegistrationByFilter({ cpf }),
+        [provider]
+    );
 
     React.useEffect(() => {
         const unmasked = document.replace(CLEAR_MASK_EXP, "");
-        if (unmasked.length >= 11) search(unmasked);
-    }, [isValidDocument]);
-
-    async function search(cpf: string) {
-        await provider.getRegistrationByFilter({ cpf });
-    }
+        if (unmasked.length >= 11 && isValidDocument) search(unmasked);
+    }, [isValidDocument, document, search]);
 
     async function refetch() {
+        setDocument("");
         await provider.getAllRegistrations();
     }
 
@@ -61,11 +61,10 @@ const SearchBar = React.memo(() => {
     }
 
     return (
-        <S.Container>
+        <S.Container data-testid="test--search-bar">
             <TextField
                 value={document}
                 placeholder="Digite um CPF válido"
-                label="CPF"
                 onChange={(e) => handleCpf(e.target.value)}
                 error={documentError}
             />
@@ -74,10 +73,11 @@ const SearchBar = React.memo(() => {
                     <HiRefresh />
                 </IconButton>
                 <Button
-                    disabled={loading}
-                    loading={loading}
-                    color="#64a98c"
-                    minWidth={"175px"}
+                    $disabled={loading}
+                    $loading={loading}
+                    $color="#64a98c"
+                    $minWidth={"175px"}
+                    $variant="large"
                     onClick={() => goToNewAdmissionPage()}
                 >
                     Nova Admissão
@@ -86,4 +86,4 @@ const SearchBar = React.memo(() => {
         </S.Container>
     );
 });
-export { SearchBar };
+export default SearchBar;
