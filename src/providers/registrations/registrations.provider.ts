@@ -123,7 +123,7 @@ class ProviderImp implements Provider {
             this.store.updateLoading(false);
         }
     }
-    public async deleteRegistration(id: number): Promise<void> {
+    public async deleteRegistration(id: string | number): Promise<void> {
         this.store.updateLoading(true);
         try {
             await this.repository.deleteById(id);
