@@ -1,7 +1,7 @@
 import { RegistrationStatus } from "~/data/domain/entities/registrations/registrationsStatus";
 
 type RegistrationModel = {
-    id: number;
+    id: number | string;
     admissionDate: string;
     email: string;
     employeeName: string;

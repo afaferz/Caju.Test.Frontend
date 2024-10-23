@@ -1,3 +1,43 @@
 {
-  "registrations": []
+  "registrations": [
+    {
+      "id": "6eea",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "06fc",
+      "employeeName": "Test Abc",
+      "email": "test@g.com",
+      "cpf": "268.544.520-07",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "2953",
+      "employeeName": "Test Abc",
+      "email": "test@g.com",
+      "cpf": "268.544.520-07",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "92ac",
+      "employeeName": "Test Abc",
+      "email": "test@g.com",
+      "cpf": "268.544.520-07",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "0b21",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "8863",
+      "admissionDate": "01/01/2024",
+      "status": "REVIEW"
+    }
+  ]
 }
