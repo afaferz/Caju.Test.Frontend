@@ -116,6 +116,7 @@ const RegisterForm = React.memo(() => {
                 : "";
             await provider.createRegistration({
                 ...registration,
+                cpf: registration?.cpf.replace(CLEAR_MASK_LOOKUP["cpf"], ""),
                 admissionDate: admissionDate,
                 status: RegistrationStatus.REVIEW,
             });
