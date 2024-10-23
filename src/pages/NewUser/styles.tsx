@@ -7,16 +7,17 @@ export const Container = styled.div`
     justify-content: center;
     flex-direction: column;
     gap: 16px;
-    padding: 1rem 0;
+    padding: 1rem;
 `;
 
 export const Card = styled.div`
     border: 2px solid #f0f0f0;
-    width: 500px;
-    padding: 48px;
+    max-width: 500px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 65vw;
 
     ${_IconButtonStyled} {
         margin-bottom: 8px;

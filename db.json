@@ -1,3 +1,20 @@
 {
-    "registrations": []
+  "registrations": [
+    {
+      "id": "37af",
+      "employeeName": "asdsad asdasd",
+      "email": "sadds@g.com",
+      "cpf": "06713133126",
+      "admissionDate": "10/01/2000",
+      "status": "REVIEW"
+    },
+    {
+      "id": "c7c1",
+      "employeeName": "asdsadsa sdsad",
+      "email": "asdds@g.com",
+      "cpf": "98089751008",
+      "admissionDate": "15/02/2011",
+      "status": "REVIEW"
+    }
+  ]
 }
