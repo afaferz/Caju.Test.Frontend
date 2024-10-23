@@ -106,11 +106,14 @@ const RegisterForm = React.memo(() => {
 
     const submit$1 = async () => {
         if (valid) {
-            const admissionDate = new Intl.DateTimeFormat("pt-BR", {
-                month: "2-digit",
-                day: "2-digit",
-                year: "numeric",
-            }).format(new Date(registration?.admissionDate));
+            const admissionDate = registration?.admissionDate
+                ? new Intl.DateTimeFormat("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      timeZone: "UTC",
+                  }).format(new Date(registration.admissionDate))
+                : "";
             await provider.createRegistration({
                 ...registration,
                 admissionDate: admissionDate,
